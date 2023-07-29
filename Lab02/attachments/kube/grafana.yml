@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: grafana
+  name: grafana
+spec:
+  containers:
+  - image: docker.io/grafana/grafana:9.5.2
+    name: grafana
+    ports:
+    - containerPort: 3000
+    env:
+    - name: GF_SERVER_ROOT_URL
+      value: http://<REPLACE_YOUR_IP>:3000
+    - name: GF_SECURITY_ADMIN_USER
+      valueFrom:
+        secretKeyRef:
+          name: gf-secret
+          key: username
+    - name: GF_SECURITY_ADMIN_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: gf-secret
+          key: password
+    volumeMounts:
+    - mountPath: /var/lib/grafana
+      name: gf-data-pvc
+  volumes:
+  - name: gf-data-pvc
+    persistentVolumeClaim:
+      claimName: gf-data

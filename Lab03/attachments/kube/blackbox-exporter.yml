@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: blackbox-exporter
+  name: blackbox-exporter
+spec:
+  containers:
+  - image: docker.io/prom/blackbox-exporter:v0.24.0
+    name: blackbox-exporter
+    ports:
+    - containerPort: 9115

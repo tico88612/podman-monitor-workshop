@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: alertmanager-discord
+  name: alertmanager-discord
+spec:
+  containers:
+  - image: docker.io/benjojo/alertmanager-discord:latest
+    name: alertmanager-discord
+    ports:
+    - containerPort: 9094
+    env:
+    - name: DISCORD_WEBHOOK
+      value: <YOUR_WEBHOOK_URL>

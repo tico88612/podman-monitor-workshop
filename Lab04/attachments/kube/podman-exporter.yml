@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: podman-exporter
+  name: podman-exporter
+spec:
+  containers:
+  - args:
+    - "-a"
+    env:
+    - name: CONTAINER_HOST
+      value: unix:///run/podman/podman.sock
+    image: quay.io/navidys/prometheus-podman-exporter:v1.3.0
+    name: podman-exporter
+    ports:
+    - containerPort: 9882
+      hostPort: 9882
+    securityContext:
+      runAsGroup: 0
+      runAsUser: 0
+    volumeMounts:
+    - mountPath: /run/podman/podman.sock
+      name: podman-socket-host
+  volumes:
+  - hostPath:
+      path: /run/podman/podman.sock
+      type: Directory
+    name: podman-socket-host
